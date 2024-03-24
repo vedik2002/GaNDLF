@@ -4,9 +4,7 @@ from typing import Optional,Union,List,Dict
 from validator.loss_function_validator import LossFunctionValidator
 from validator.patch_size_validator import PatchSizeValidator
 from validator.model_validator import ModelValidator
-from validator.metrics_validator import preprocess_metric
-from validator.metrics_validator import preprocess_classification_metrics
-from validator.metrics_validator import preprocess_iou_metrics
+from validator.metric_validator import MetricValidator
 
 
 class Model(BaseModel):
@@ -22,15 +20,15 @@ class MetricsConfig(BaseModel):
 
     @validator('accuracy', 'f1', 'precision', 'recall', 'specificity', 'iou')
     def preprocess_metric(cls,v):
-        return preprocess_metric(v)
+        return MetricValidator.preprocess_metric(v)
 
     @validator('accuracy', 'f1', 'precision', 'recall', 'specificity')
     def preprocess_classification_metrics(cls, v):
-        return preprocess_classification_metrics(v)
+        return MetricValidator.preprocess_classification_metrics(v)
 
     @validator('iou')
     def preprocess_iou_metric(cls, v):
-        return preprocess_iou_metrics(v)
+        return MetricValidator.preprocess_iou_metric(v)
 
 
 
